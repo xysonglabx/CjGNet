@@ -1,0 +1,97 @@
+# Unified configuration example.
+# Change only MODEL.TYPE to switch the core model implementation.
+
+OUTPUT_DIR: "./outputs"
+TAG: "example"
+SEED: 1
+NUM_FOLDS: 10
+SHOW_EACH_SCORES: false
+EVAL_MODE: false
+SHOW_FREQ: 5
+
+DATA:
+  BATCH_SIZE: 64
+  DATA_PATH: "./data"
+  DATASET: "ht"
+  TASK_TYPE: "regression"
+  METRIC: "rmse"
+  SPLIT_TYPE: "random"
+  MW_BINS: [200, 300, 400, 500]
+  RATE: null
+
+MODEL:
+  # Supported: NTN / GIN / GAT / GCN
+  TYPE: "NTN"
+  HID: 128
+  DEPTH: 5
+  SLICES: 2
+  DROPOUT: 0.2
+  F_ATT: true
+  R: 4
+  BRICS: true
+  THREE_LEVEL:
+    ENABLE: false
+    NUM_HEADS: 8
+    NUM_NODE_TYPES: 3
+    NUM_EDGE_TYPES: 5
+    PHARM_DISTANCE_THRESHOLD: 5.0
+    PHARM_LAYERS: 2
+    USE_JUNCTION_VIEW: true
+    FUSION_STRATEGY: "hierarchical"
+
+DESCRIPTOR:
+  ENABLE: false
+  TYPES: ["mw", "logp", "tpsa", "hbd", "hba", "nrb", "aromatic_rings", "heteroatoms", "flexibility", "complexity"]
+  HIDDEN_DIM: 64
+  DROPOUT: 0.1
+
+LOSS:
+  FL_LOSS: false
+  CL_LOSS: false
+  ALPHA: 0.1
+  TEMPERATURE: 0.1
+  USE_HUBER: false
+  HUBER_DELTA: 1.0
+  MULTITASK:
+    LAMBDA_MAIN: 1.0
+    LAMBDA_CONTRASTIVE: 0.1
+    LAMBDA_DESCRIPTOR: 0.5
+    ADAPTIVE_WEIGHTS: false
+    ADAPTIVE_TEMP: 2.0
+  THREE_LEVEL:
+    LAMBDA_PHARM_CONTRASTIVE: 0.1
+    LAMBDA_CROSS_SCALE: 0.05
+    HIERARCHICAL_CL: true
+
+TRAIN:
+  RESUME: null
+  START_EPOCH: 0
+  MAX_EPOCHS: 100
+  EARLY_STOP: -1
+  GRADIENT_CLIP: 0.0
+  TENSORBOARD:
+    ENABLE: true
+  OPTIMIZER:
+    TYPE: "adam"
+    BASE_LR: 0.001
+    FP_LR: 0.00004
+    MOMENTUM: 0.9
+    WEIGHT_DECAY: 0.0001
+  LR_SCHEDULER:
+    TYPE: "reduce"
+    WARMUP_EPOCHS: 2
+    INIT_LR: 0.0001
+    MAX_LR: 0.01
+    FINAL_LR: 0.0001
+    FACTOR: 0.7
+    PATIENCE: 10
+    MIN_LR: 0.00001
+
+PREDICT:
+  CKPT_PATH: ""
+  TEST_CSV: ""
+  OUTPUT_DIR: ""
+  BATCH_SIZE: 0
+  DEVICE: "auto"
+  SAVE_PREDICTIONS: true
+  SAVE_METRICS: true
