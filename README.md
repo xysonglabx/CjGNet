@@ -1,6 +1,6 @@
 # CjGNet
 
-This is the code for "" paper.
+This is the code for "Learning Long-Range Halogen Effects on Molecular Acidity across a 15-Million-Compound Chemical Space" paper.
 
 ## Directory Structure
 
